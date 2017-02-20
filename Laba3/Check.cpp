@@ -19,5 +19,6 @@ int main(){
 	double proizvedenie = 0;
 	proizvedenie = vector1 * vector3;
 	std::cout << proizvedenie << std::endl;
-	//system("pause");
+	delete []vector1;
+	system("pause");
 }
