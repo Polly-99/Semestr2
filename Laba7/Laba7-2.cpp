@@ -9,13 +9,25 @@ std::string find_word(std::string word, std::string line)
 		str = "ERROR!";
 		return str;
 	}
-	if (pos_first < 0) pos_first = pos;
+	if (pos_first < 0) 
+	{
+		pos_first = pos;
+	}
 	else
 	{
-		while (line[pos_first] != ' ' && pos_first != 0) pos_first--;
-		if (line[pos_first] == ' ')	pos_first++;
+		while (line[pos_first] != ' ' && pos_first != 0) 
+		{
+			pos_first--;
+		}
+		if (line[pos_first] == ' ')
+		{
+			pos_first++;
+		}
 	}
-	while (line[pos_last] != ' ' && line[pos_last] != '\0')	pos_last++;
+	while (line[pos_last] != ' ' && line[pos_last] != '\0')	
+	{
+		pos_last++;
+	}
 	int letters = pos_last - pos_first;
 	str = line.substr(pos_first, letters);
 	return str;
@@ -29,7 +41,10 @@ std::string find_neighbor_word(std::string word, std::string line, int number)
 		str1 = "ERROR";
 		return str1;
 	}
-	if (number == 0) return str1;
+	if (number == 0)
+	{
+		return str1;
+	}
 	int pos1 = line.find(word);
 	std::string str2, str3;
 	str2 = line;
@@ -43,7 +58,10 @@ std::string find_neighbor_word(std::string word, std::string line, int number)
 		str2.erase(0, pos + 1);
 	}
 	str2 = line;
-	while (str2[pos1] != ' ' && pos1 != 0) pos1--;
+	while (str2[pos1] != ' ' && pos1 != 0) 
+	{
+		pos1--;
+	}
 	if (pos1 == 0)
 	{
 		str1.push_back(' ');
@@ -53,9 +71,15 @@ std::string find_neighbor_word(std::string word, std::string line, int number)
 		str2 = str2.erase(pos1, line.length());
 		for (int i = 0; i < number; i++)
 		{
-			if (str2.length() == 0) break;
+			if (str2.length() == 0) 
+			{
+				break;
+			}
 			int pos = str2.find_last_of(" ");
-			if (pos == -1) pos = 0;
+			if (pos == -1) 
+			{
+				pos = 0;
+			}
 			str3 = str2.substr(pos, str2.length() - pos);
 			before = str3 + before;
 			str2.erase(pos, str2.length() - pos);
@@ -64,7 +88,10 @@ std::string find_neighbor_word(std::string word, std::string line, int number)
 		before.push_back(' ');
 		str = before + str1 + after;
 	}
-	if (str[0] == ' ') str.erase(0, 1);
+	if (str[0] == ' ') 
+	{
+		str.erase(0, 1);
+	}
 	return str;
 }
 void find_all_words(std::string word, std::string filename, int n)
