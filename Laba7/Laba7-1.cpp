@@ -11,6 +11,10 @@ int main()
 		std::cout << "Stroka #" << i + 1 << std::endl;
 		std::cin >> str;
 		length = str.length();
+		if (length == 1)
+		{
+			std::cout << "Palindrom" << std::endl;
+		}
 		for (int j = 0; j < length; j++)
 		{
 			if (str[j] != str[length - j - 1]) 
