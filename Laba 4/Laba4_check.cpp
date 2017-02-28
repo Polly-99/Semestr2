@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Laba4.h"
+#include "New.h"
 int main(){
 	int x = 0, y = 0, z = 0;
 	std::cout << "Vector 1: " << std::endl << "koordinata X : ";
