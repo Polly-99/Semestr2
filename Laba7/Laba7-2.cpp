@@ -1,96 +1,123 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-std::string find_word(std::string word, std::string line)
+bool find_end(std::string line, int pos)
+{
+	std::string symbol = "!@#$%^&*()№;:?*{}[] \ /.,<>~` - _ =+";
+	for (size_t j = 0; j < symbol.length(); j++)
+	{
+			if (symbol[j] == line[pos]) return 1;
+	}
+	return 0;
+}
+std::string find_word(std::string word, std::string line, int pos_poiska)
 {
 	std::string str;
-	int pos = line.find(word), pos_last = pos + 1, pos_first = pos - 1;
+	int pos = line.find(word, pos_poiska), pos_last = pos + 1, pos_first = pos - 1;
 	if (pos == -1){
 		str = "ERROR!";
 		return str;
 	}
-	if (pos_first < 0) 
+	if (pos_first < 0)
 	{
 		pos_first = pos;
 	}
 	else
 	{
-		while (line[pos_first] != ' ' && pos_first != 0) 
+		while (find_end (line, pos_first) != 1)
 		{
+			if (pos_first == 0) 
+			{
+				break;
+			}
 			pos_first--;
 		}
-		if (line[pos_first] == ' ')
+		if (pos_first != 0)
 		{
 			pos_first++;
 		}
 	}
-	while (line[pos_last] != ' ' && line[pos_last] != '\0')	
+	while (find_end(line, pos_last) != 1)
 	{
+		if (pos_last == line.length())
+		{
+			break;
+		}
 		pos_last++;
 	}
 	int letters = pos_last - pos_first;
 	str = line.substr(pos_first, letters);
 	return str;
 }
-std::string find_neighbor_word(std::string word, std::string line, int number)                          
+std::string find_neighbor_word(std::string word, std::string line, int pos_poiska, int number)
 {
 	std::string before, after, str1, str;
-	str1 = find_word(word, line);
-	if (number < 0)
-	{
-		str1 = "ERROR";
-		return str1;
-	}
+	str1 = find_word(word, line, pos_poiska);
+	if (str1 == "ERROR!") return str1;
 	if (number == 0)
 	{
 		return str1;
 	}
-	int pos1 = line.find(word);
-	std::string str2, str3;
-	str2 = line;
-	str2 = str2.erase(0, str1.length() - str1.find(word)+ pos1 + 1);
-	for (int i = 0; i < number; i++)
-	{
-		int pos = str2.find(" ");
-		if (pos == -1)	pos = str2.length();
-		str3 = str2.substr(0, pos+1);
-		after += str3;
-		str2.erase(0, pos + 1);
-	}
-	str2 = line;
-	while (str2[pos1] != ' ' && pos1 != 0) 
-	{
-		pos1--;
-	}
-	if (pos1 == 0)
-	{
-		str1.push_back(' ');
-		str = str1 + after;
-	}
-	else {
-		str2 = str2.erase(pos1, line.length());
+0int pos1 = line.find(word, pos_poiska);
+	std::string copy_line, neighbor;
+	copy_line = line;
+	copy_line = copy_line.erase(0, str1.length() - str1.find(word) + pos1);
+	if (copy_line.length() != 0) {
 		for (int i = 0; i < number; i++)
 		{
-			if (str2.length() == 0) 
+			int pos = 1;
+			while (find_end(copy_line, pos) != 1)
+			{
+				if (pos == copy_line.length())
+				{
+					break;
+				}
+				pos++;
+			}
+			neighbor = copy_line.substr(0, pos + 1);
+			after += neighbor;
+			copy_line.erase(0, pos + 1);
+			if (copy_line.length() == 0) break;
+		}
+		if (find_end(after, after.length() - 1)){
+			after = after.erase(after.length() - 1, 1);
+		}
+	}
+	copy_line = line;
+	while (find_end (copy_line, pos1) != 1)
+	{
+		if (pos1 == 0)
+		{
+			str = str1 + after;
+			break;
+		}
+		pos1--;
+	}
+	if (pos1 != 0) {
+		copy_line = copy_line.erase(pos1 + 1, line.length());
+		for (int i = 0; i < number; i++)
+		{
+			if (copy_line.length() == 0)
 			{
 				break;
 			}
-			int pos = str2.find_last_of(" ");
-			if (pos == -1) 
+			int pos = copy_line.length() - 2;
+			while (find_end(copy_line, pos) != 1)
 			{
-				pos = 0;
+				if (pos == 0)
+				{
+					break;
+				}
+				pos--;
 			}
-			str3 = str2.substr(pos, str2.length() - pos);
-			before = str3 + before;
-			str2.erase(pos, str2.length() - pos);
+			neighbor = copy_line.substr(pos, copy_line.length() - pos + 1);
+			before = neighbor + before;
+			copy_line.erase(pos, copy_line.length() - pos);
 		}
-		str1.push_back(' ');
-		before.push_back(' ');
+		if (find_end (before, 0 )){
+			before = before.erase(0, 1);
+		}
 		str = before + str1 + after;
-	}
-	if (str[0] == ' ') 
-	{
-		str.erase(0, 1);
 	}
 	return str;
 }
@@ -98,16 +125,20 @@ void find_all_words(std::string word, std::string filename, int n)
 {
 	std::fstream file(filename, std::fstream::in);
 	std::string line, str, str1;
-	while (file){
+	int pos = 0;
+	while (!file.eof()){
+		int pos_poiska = 0;
 		std::getline(file, line);
-		str1 = find_word(word, line);
-		int pos = line.find(str1);
-		while (pos != -1){
-			str = find_neighbor_word(word, line, n);
-			std::cout << str << std::endl;
-			line = line.erase(0, pos + str1.length() + 1);
-			str1 = find_word(word, line);
+		str1 = "0";
+		while (str1 != "ERROR!"){
+			str = find_neighbor_word(word, line, pos_poiska, n);
+			if (str != "ERROR!"){
+				std::cout << str << std::endl << std::endl;
+			}
+			str1 = find_word(word, line, pos_poiska);
 			pos = line.find(str1);
+			pos_poiska = pos + str1.length() + 1;
+			str1 = find_word(word, line, pos_poiska);
 		}
 	}
 }
@@ -117,8 +148,13 @@ int main()
 	int n = 0;
 	std::cout << "Vvedite slovo:";
 	std::cin >> str;
+	int t = 0;
 	std::cout << "Vvedite kol-vo sosednih slov: ";
 	std::cin >> n;
+	if (n < 0)
+	{
+		std::cout << "ERROR" << std::endl;
+	}
 	find_all_words(str, "C:\\Test\\list.txt", n);
 	system("pause");
 }
