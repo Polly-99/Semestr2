@@ -23,11 +23,11 @@ int TPair::peremn()
 	int a = first * second;
 	return a;
 }
-TPair TPair:: operator - (TPair* A) // (a, b) - (c, d) = (a - b, c - d)
+TPair TPair:: operator - (TPair A) // (a, b) - (c, d) = (a - b, c - d)
 {
 	TPair C;
 	C.first = first - second;
-	C.second = A->first - A->second;
+	C.second = A.first - A.second;
 	return C;
 }
 void TPair::Print()
