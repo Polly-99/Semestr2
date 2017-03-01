@@ -9,6 +9,6 @@ public:
 	virtual ~TPair();
 	bool ravn();
 	int peremn();
-	virtual TPair operator - (TPair* A);
+	virtual TPair operator - (TPair A);
 	virtual void Print();
 };
