@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-bool find_end(std::string line, int pos)
+bool find_end(std::string const & line, int pos)
 {
 	std::string symbol = "!@#$%^&*()№;:?*{}[] \ /.,<>~` - _ =+";
 	for (size_t j = 0; j < symbol.length(); j++)
@@ -10,7 +10,7 @@ bool find_end(std::string line, int pos)
 	}
 	return 0;
 }
-std::string find_word(std::string word, std::string line, int pos_poiska)
+std::string find_word(std::string const & word, std::string const & line, int pos_poiska)
 {
 	std::string str;
 	int pos = line.find(word, pos_poiska), pos_last = pos + 1, pos_first = pos - 1;
@@ -49,7 +49,7 @@ std::string find_word(std::string word, std::string line, int pos_poiska)
 	str = line.substr(pos_first, letters);
 	return str;
 }
-std::string find_neighbor_word(std::string word, std::string line, int pos_poiska, int number)
+std::string find_neighbor_word(std::string const & word, std::string const & line, int pos_poiska, int number)
 {
 	std::string before, after, str1, str;
 	str1 = find_word(word, line, pos_poiska);
@@ -58,7 +58,7 @@ std::string find_neighbor_word(std::string word, std::string line, int pos_poisk
 	{
 		return str1;
 	}
-0int pos1 = line.find(word, pos_poiska);
+	int pos1 = line.find(word, pos_poiska);
 	std::string copy_line, neighbor;
 	copy_line = line;
 	copy_line = copy_line.erase(0, str1.length() - str1.find(word) + pos1);
@@ -121,7 +121,7 @@ std::string find_neighbor_word(std::string word, std::string line, int pos_poisk
 	}
 	return str;
 }
-void find_all_words(std::string word, std::string filename, int n)
+void find_all_words(std::string const & word, std::string const & filename, int n)
 {
 	std::fstream file(filename, std::fstream::in);
 	std::string line, str, str1;
