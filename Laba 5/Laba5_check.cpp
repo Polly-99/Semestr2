@@ -19,7 +19,7 @@ int main()
 	std::cout << "first * second = " << A.peremn()<< std::endl;
 	TPair B(2, 3);
 	TPair H;
-	H = A - &B;
+	H = A - B;
 	std::cout << "pair A - (2, 3) = ";
 	H.Print();
 
