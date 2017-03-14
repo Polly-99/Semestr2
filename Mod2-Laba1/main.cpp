@@ -2,14 +2,6 @@
 #include <exception>
 #include "Class.h"
 
-int length(const char * str)
-{
-	int i = 0;
-	while (str[i])
-		i++;
-	return i;
-}
-
 int intFromString(const char * str)
 {
 	int i = 0, intStr = 0;
@@ -19,13 +11,14 @@ int intFromString(const char * str)
 		minus = true;
 		i = 1;
 	}
-	for (i; i < length(str); i++)
+	for (i; i < strlen(str); i++)
 	{
 		if (str[i] < 48 || str[i] > 57)
 			throw TWrongSymbol();
 		intStr = intStr * 10 + (str[i] - 48);
 	}
-	if (intStr - minus < 0)
+
+	if (intStr - minus < 0 || strlen(str) > 10 + minus || (strlen(str) == 10 + minus &&  str[minus]-48 > 2))
 		throw TTooLong();
 	if (minus)
 		intStr = -intStr;
@@ -52,20 +45,20 @@ float floatFromString(const char * str)
 		minus = true;
 		i = 1;
 	}
-	for (i; i < length(str); i++)
+	for (i; i < strlen(str); i++)
 	{
 		if (str[i] < 45 || str[i] > 57 || str[i] == 47)
 			throw TWrongSymbol();
 	}
 	i = minus;
-	while (str[i] != '.' && str[i] != ',' && i < length(str))
+	while (str[i] != '.' && str[i] != ',' && i < strlen(str))
 	{
 		floatStr = floatStr * 10 + (str[i] - 48);
 		i++;
 	}
 	i++;
 	float z = 0.1;
-	for (i; i < length(str); i++)
+	for (i; i < strlen(str); i++)
 	{
 		floatStr = floatStr + (str[i] - 48) * z;
 		z = z * 0.1;
@@ -81,7 +74,7 @@ float floatFromString(const char * str)
 int main()
 {
 	try {
-		char * str1 = "-2147483656";
+		char * str1 = "-2147483786";
 		int intStr = intFromString(str1);
 	}
 	catch (const TCastException & e1)
