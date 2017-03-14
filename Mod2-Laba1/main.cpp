@@ -17,7 +17,8 @@ int intFromString(const char * str)
 			throw TWrongSymbol();
 		intStr = intStr * 10 + (str[i] - 48);
 	}
-
+	if (strlen(str) == 1 + minus && str[minus] == 48)
+		return 0;
 	if (intStr - minus < 0 || strlen(str) > 10 + minus || (strlen(str) == 10 + minus &&  str[minus]-48 > 2))
 		throw TTooLong();
 	if (minus)
