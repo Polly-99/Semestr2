@@ -8,7 +8,7 @@ struct TExistElementException
 	: public std::exception
 {
 	TExistElementException(char const* const message) throw()
-	: std::exception(message)
+		: std::exception(message)
 	{
 	}
 };
@@ -18,7 +18,7 @@ struct TNotFoundException
 	: public std::exception
 {
 	TNotFoundException(char const* const message) throw()
-	: std::exception(message)
+		: std::exception(message)
 	{ }
 };
 
@@ -78,7 +78,7 @@ public:
 
 	void Insert(const value_type& data)
 	{
-		if (!TryInsert(data))
+		if(!TryInsert(data))
 			throw TExistElementException("element already exist");
 	}
 
@@ -127,8 +127,7 @@ public:
 
 std::ostream& operator << (std::ostream & out, const TBinaryTree& tree)
 {
-	TBinaryTree::Print(out, tree.Root);
-	std::cout << std::endl;
+	TBinaryTree::Print(out, tree.Root);	
 	return out;
 }
 
