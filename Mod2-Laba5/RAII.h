@@ -13,7 +13,7 @@ public:
 
 	~RAII()
 	{
-		PtrTNC->Close();
-		std::cout << "Closed!" << std::endl;
+		if (PtrTNC != nullptr)
+			PtrTNC->Close();
 	}
 };
