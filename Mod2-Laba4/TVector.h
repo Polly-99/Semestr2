@@ -97,6 +97,7 @@ public:
 			return *this;
 		Count = rhs.Count;
 		InternalCapacity = rhs.InternalCapacity;
+		delete [] Ptr;
 		Ptr = new value_type[InternalCapacity];
 		for (int i = 0; i < Count; i++)
 		{
