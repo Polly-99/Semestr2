@@ -16,6 +16,15 @@ private:
 	value_type * Ptr;
 	size_type Count;
 	size_type InternalCapacity;  
+	int Num(iterator pos)
+	{
+		for (int i = 0; i < Count; i++)
+		{
+			if (Ptr[i] == *pos)
+				return i;
+		}
+		return -1;
+	}
 public:
 	TVector()
 		: Ptr(nullptr)
@@ -88,7 +97,8 @@ public:
 			return *this;
 		Count = rhs.Count;
 		InternalCapacity = rhs.InternalCapacity;
-		new value_type[InternalCapacity];
+		delete [] Ptr;
+		Ptr = new value_type[InternalCapacity];
 		for (int i = 0; i < Count; i++)
 		{
 			Ptr[i] = rhs.Ptr[i];
@@ -240,17 +250,6 @@ public:
 		Count -= (last - first);
 		return first;
 	}	
-
-	int Num(iterator pos)
-	{
-		for (int i = 0; i < Count; i++)
-		{
-			if (Ptr[i] == *pos)
-				return i;
-		}
-		return -1;
-	}
 };
-
 
 #endif // __TVECTOR_INCLUDED__
