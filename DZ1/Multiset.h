@@ -188,6 +188,20 @@ public:
 		for (auto &i : init)
 			insert(init);
 	}
+	
+	TMultiset(TMultiset & rhs)
+	{
+		Root = nullptr;
+		Iterator <T> cur = rhs.begin();
+		while (cur != rhs.end())
+		{
+			for (int i = 0; i < cur.Ptr->Count; i++)
+			{
+				insert(*cur);
+			}
+			++cur;
+		}
+	}
 
 	~TMultiset()
 	{
