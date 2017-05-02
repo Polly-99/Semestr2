@@ -301,7 +301,7 @@ public:
 	{
 		Iterator <T> cur;
 		Iterator <T> cur1;
-		bool ind = 0;  
+		bool ind = 0;
 		if (Node.Ptr->Right != nullptr && Node.Ptr->Right != End)
 		{
 			cur = *(Node.Ptr->Right);
@@ -312,6 +312,7 @@ public:
 				while (cur1.Ptr->Left != nullptr)
 					cur1 = *(cur1.Ptr->Left);
 				cur1.Ptr->Left = Node.Ptr->Left;
+				Node.Ptr->Left->Parent = cur1.Ptr;
 			}
 		}
 		else
@@ -335,11 +336,10 @@ public:
 			{
 				cur.Ptr->Parent = Node.Ptr->Parent;
 				if (*Node < Node.Ptr->Parent->Data)
-				{
-					*(Node.Ptr->Parent->Left) = *cur.Ptr;
-				}
+					(Node.Ptr->Parent->Left) = cur.Ptr;
+	
 				else
-					*(Node.Ptr->Parent->Right) = *cur.Ptr;
+					(Node.Ptr->Parent->Right) = cur.Ptr;
 			}
 			else
 			{
@@ -366,6 +366,10 @@ public:
 				return *End;
 			}
 		}
+		Node.Ptr->Left = nullptr;
+		Node.Ptr->Right = nullptr;
+		Node.Ptr->Parent = nullptr;
+		delete Node.Ptr;
 		return cur;
 	}
 
