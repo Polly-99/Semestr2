@@ -357,9 +357,9 @@ public:
 
 	bool is_monotone() const
 	{
-		for (int i = 0; i < size() / 2; i++)
+		for (int i = 0; i < size() - 1; i++)
 		{
-			if (bf[i] - bf[i + size() / 2] > 0)
+			if (bf[i + 1] < bf[i])
 				return 0;
 		}
 		return 1;
