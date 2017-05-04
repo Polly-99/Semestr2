@@ -6,6 +6,24 @@
 #include <exception>
 #include <iostream>
 
+std::vector <bool> perevod(int num, int dim)
+{
+	std::vector <bool> res;
+	int i = 0;
+	while (num != 0)
+	{
+		res.push_back(num % 2);
+		num = num / 2;
+		i++;
+	}
+	while (i < pow(2, dim))
+	{
+		res.push_back(0);
+		i++;
+	}
+	return res;
+}
+
 class boolean_function
 {
 public:
@@ -359,10 +377,23 @@ public:
 	{
 		for (int i = 0; i < size() - 1; i++)
 		{
-			if (bf[i + 1] < bf[i])
-				return 0;
+			for (int j = i + 1; j < size(); j++)
+			{
+				boolean_function a( perevod (i, dimension()));
+				boolean_function b(perevod(j, dimension()));
+				try
+				{
+					if (b >= a)
+					{
+						if (bf[i] > bf[j])
+							return false;
+					}
+				}
+				catch (const std::logic_error & e)
+				{ }
+			}
 		}
-		return 1;
+		return true;
 	}
 
 	bool is_symmetric() const
