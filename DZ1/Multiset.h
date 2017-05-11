@@ -25,7 +25,12 @@ struct TTree
 	{}
 
 	~TTree()
-	{}
+	{
+		if (Left != nullptr)
+			delete Left;
+		if (Right != nullptr)
+			delete Right;
+	}
 
 	void add()
 	{
