@@ -405,7 +405,11 @@ public:
 
 	void clear()
 	{
-		erase(begin(), end());
+		if (Root != nullptr)
+		{
+			delete Root;
+			Root = nullptr;
+		}
 	}
 
 	void Print()
