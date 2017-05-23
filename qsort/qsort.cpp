@@ -32,11 +32,12 @@ It get_opr(It beg, It end, Cmp cmp)
 template<class It, class Cmp>
 It partition(It beg, It end, Cmp cmp)
 {
-	bool flag = false;
+	bool flag = false, flag1 = false;
 	It i = beg, j = end - 1;
 	It pivot = get_opr(beg, end - 1, cmp);
-	while (i != j && *i != *j)
+	while (i != j && (*i != *j || i + 1 != j))
 	{
+		flag1 = false;
 		while (cmp(*i, *pivot))
 			i++;
 		while (i != j && cmp(*pivot, *j))
@@ -45,6 +46,7 @@ It partition(It beg, It end, Cmp cmp)
 		{
 				i++;
 				flag = true;
+				flag1 = true;
 		}
 		if (i != j)
 		{
@@ -54,6 +56,9 @@ It partition(It beg, It end, Cmp cmp)
 				if (pivot == i)
 					pivot = j;
 			}
+			if (flag1)
+				std::swap(*pivot, *i);
+			else
 				std::swap(*i, *j);
 		}
 	}
