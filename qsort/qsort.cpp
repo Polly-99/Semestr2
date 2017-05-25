@@ -31,7 +31,8 @@ It get_opr(It beg, It end, Cmp cmp)
 
 template<class It, class Cmp>
 It partition(It beg, It end, Cmp cmp)
-{bool flag = false, flag1 = false;
+{
+	bool flag = false, flag1 = false;
 	It i = beg, j = end - 1, pivot = get_opr(beg, end - 1, cmp);
 		while (i != j && (*i != *j || i + 1 != j))
 		{
