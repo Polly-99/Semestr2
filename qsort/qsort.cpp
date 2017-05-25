@@ -31,36 +31,48 @@ It get_opr(It beg, It end, Cmp cmp)
 
 template<class It, class Cmp>
 It partition(It beg, It end, Cmp cmp)
-{
-	bool flag = false, flag1 = false;
-	It i = beg, j = end - 1;
-	It pivot = get_opr(beg, end - 1, cmp);
-	while (i != j && (*i != *j || i + 1 != j))
-	{
-		flag1 = false;
-		while (cmp(*i, *pivot))
-			i++;
-		while (i != j && cmp(*pivot, *j))
-			j--;
-		if (*i == *j && i != j)
+{bool flag = false, flag1 = false;
+	It i = beg, j = end - 1, pivot = get_opr(beg, end - 1, cmp);
+		while (i != j && (*i != *j || i + 1 != j))
 		{
+			flag1 = false;
+			while (cmp(*i, *pivot))
+				i++;
+			while (i != j && cmp(*pivot, *j))
+				j--;
+			if (*i == *j && i != j)
+			{
 				i++;
 				flag = true;
 				flag1 = true;
-		}
-		if (i != j)
-		{
-			if (pivot == j)
-				pivot = i;
-			else {
-				if (pivot == i)
-					pivot = j;
+				
 			}
-			if (flag1)
-				std::swap(*pivot, *i);
-			else
-				std::swap(*i, *j);
-		}
+			if (i != j)
+			{
+				flag = false;
+				if (flag1)
+				{
+					if (*i > *j)
+					{
+						std::swap(*pivot, *j);
+						pivot = j;
+					}
+					else
+					{
+						std::swap(*pivot, *i);
+						pivot = i;
+					}
+				}
+				else{
+					if (pivot == j)
+						pivot = i;
+					else {
+						if (pivot == i)
+							pivot = j;
+					}
+					std::swap(*i, *j);
+				}
+			}
 	}
 	if (flag)
 		i--;
