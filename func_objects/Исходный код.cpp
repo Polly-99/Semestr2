@@ -186,14 +186,7 @@ int main()
 		catch (...)
 		{ }
 	});
-
-	//äîáàâèòü íîâûé ïðåäìåò Russian literature, â êà÷åñòâå îöåíêè - ñðåäíþþ îöåíêà ñ îêðóãëåíèåì â áîëüøóþ ñòîðîíó 
-		std::for_each(students.begin(), students.end(),
-		[](const Student & st)
-	{
-		st.Grades.insert(std::pair<std::string, Grade>("Russian literature", AV_Grade(st)));
-	});
-
+	
 	//âûâåñòè èõ îöåíêè ïî dutch, åñëè ñòóäåíò íå èçó÷àåò ýòî ïðåäìåò, òî âûâåñòè îá ýòîì ñîîáùåíèå
 	std::cout << std::endl << "Dutch" << std::endl;
 	std::for_each(students.begin(), students.end(),
