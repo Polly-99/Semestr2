@@ -106,20 +106,21 @@ struct FindGroup{
 	}
 };
 
-double AV_Grade(const Student & st)
+Grade AV_Grade(const Student & st)
 {
-	double gr = 0;
+	int gr = 0;
 	for (auto it = st.Grades.begin(); it != st.Grades.end(); it++)
 		gr = gr + it->second;
 	gr = gr / st.Grades.size();
-	return gr;
+	Grade grade = (Grade)gr;
+	return grade;
 }
 
 int main()
 {
 	std::vector<Student> students = LoadStudents();
 
-	//лучше всех знает математику
+	//Г«ГіГ·ГёГҐ ГўГ±ГҐГµ Г§Г­Г ГҐГІ Г¬Г ГІГҐГ¬Г ГІГЁГЄГі
 	auto i = std::max_element(students.begin(), students.end(),
 		[](const Student & f, const Student & s)
 	{
@@ -134,7 +135,7 @@ int main()
 	});
 	std::cout << "Best in math" << std::endl << i->FIO << std::endl;
 
-	//худшая средняя оценка за предметы
+	//ГµГіГ¤ГёГ Гї Г±Г°ГҐГ¤Г­ГїГї Г®Г¶ГҐГ­ГЄГ  Г§Г  ГЇГ°ГҐГ¤Г¬ГҐГІГ»
 	auto it2 = std::min_element(students.begin(), students.end(),
 		[](const Student & f, const Student & s)
 	{
@@ -143,7 +144,7 @@ int main()
 	if (it2 != students.end())
 		std::cout << "Worst average grade:" << it2->FIO << std::endl;
 
-	//изучает меньше всего предметов
+	//ГЁГ§ГіГ·Г ГҐГІ Г¬ГҐГ­ГјГёГҐ ГўГ±ГҐГЈГ® ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў
 	auto it = std::min_element(students.begin(), students.end(),
 		[](const Student & f, const Student & s)
 	{
@@ -152,7 +153,7 @@ int main()
 	if (it != students.end())
 		std::cout << "Min subjects:" << it->FIO << std::endl;
 
-	//изучает больше всего предметов
+	//ГЁГ§ГіГ·Г ГҐГІ ГЎГ®Г«ГјГёГҐ ГўГ±ГҐГЈГ® ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў
 	auto it1 = std::max_element(students.begin(), students.end(),
 		[](const Student & f, const Student & s)
 	{
@@ -161,7 +162,7 @@ int main()
 	if (it1 != students.end())
 		std::cout << "Max subjects:" << it1->FIO << std::endl;
 
-	// получить учеников группы по ее названию
+	// ГЇГ®Г«ГіГ·ГЁГІГј ГіГ·ГҐГ­ГЁГЄГ®Гў ГЈГ°ГіГЇГЇГ» ГЇГ® ГҐГҐ Г­Г Г§ГўГ Г­ГЁГѕ
 	FindGroup finderObj;
 	finderObj.neededGroup = "G3";
 	for (auto it = students.begin(); it != students.end(); it++)
@@ -170,7 +171,7 @@ int main()
 	for (auto it3 = finderObj.group.begin(); it3 != finderObj.group.end(); it3++)
 		std::cout << it3->FIO << std::endl;
 
-	//найти всех учеников, которые знают математику на B, а cs на A
+	//Г­Г Г©ГІГЁ ГўГ±ГҐГµ ГіГ·ГҐГ­ГЁГЄГ®Гў, ГЄГ®ГІГ®Г°Г»ГҐ Г§Г­Г ГѕГІ Г¬Г ГІГҐГ¬Г ГІГЁГЄГі Г­Г  B, Г  cs Г­Г  A
 	std::cout << std::endl << "Math - B, cs - A" << std::endl;
 	std::for_each(students.begin(), students.end(),
 		[](const Student & st)
@@ -184,14 +185,14 @@ int main()
 		{ }
 	});
 
-	//добавить новый предмет Russian literature, в качестве оценки - среднюю оценка с округлением в большую сторону 
-	std::for_each(students.begin(), students.end(),
+	//Г¤Г®ГЎГ ГўГЁГІГј Г­Г®ГўГ»Г© ГЇГ°ГҐГ¤Г¬ГҐГІ Russian literature, Гў ГЄГ Г·ГҐГ±ГІГўГҐ Г®Г¶ГҐГ­ГЄГЁ - Г±Г°ГҐГ¤Г­ГѕГѕ Г®Г¶ГҐГ­ГЄГ  Г± Г®ГЄГ°ГіГЈГ«ГҐГ­ГЁГҐГ¬ Гў ГЎГ®Г«ГјГёГіГѕ Г±ГІГ®Г°Г®Г­Гі 
+		std::for_each(students.begin(), students.end(),
 		[](const Student & st)
 	{
-		st.Grades.insert(std::pair<std::string, Grade> ("Russian literature", (Grade)AV_Grade(st)))
+		st.Grades.insert(std::pair<std::string, Grade>("Russian literature", AV_Grade(st)));
 	});
 
-	//вывести их оценки по dutch, если студент не изучает это предмет, то вывести об этом сообщение
+	//ГўГ»ГўГҐГ±ГІГЁ ГЁГµ Г®Г¶ГҐГ­ГЄГЁ ГЇГ® dutch, ГҐГ±Г«ГЁ Г±ГІГіГ¤ГҐГ­ГІ Г­ГҐ ГЁГ§ГіГ·Г ГҐГІ ГЅГІГ® ГЇГ°ГҐГ¤Г¬ГҐГІ, ГІГ® ГўГ»ГўГҐГ±ГІГЁ Г®ГЎ ГЅГІГ®Г¬ Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ
 	std::cout << std::endl << "Dutch" << std::endl;
 	std::for_each(students.begin(), students.end(),
 		[](const Student & st)
