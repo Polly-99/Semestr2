@@ -106,12 +106,14 @@ struct FindGroup{
 	}
 };
 
+
 Grade AV_Grade(const Student & st)
 {
 	int gr = 0;
 	for (auto it = st.Grades.begin(); it != st.Grades.end(); it++)
 		gr = gr + it->second;
-	gr = gr / st.Grades.size();
+	if (st.Grades.size() != 0)
+		gr = gr / st.Grades.size();
 	Grade grade = (Grade)gr;
 	return grade;
 }
